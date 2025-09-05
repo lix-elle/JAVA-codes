@@ -1,0 +1,506 @@
+// 1. Maximum and Minimum in Array //
+import java.util.Scanner;
+
+public class MaxMinArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size of array: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int max = arr[0], min = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > max) max = arr[i];
+            if (arr[i] < min) min = arr[i];
+        }
+
+        System.out.println("Max = " + max);
+        System.out.println("Min = " + min);
+    }
+}
+
+
+
+// 2. Reverse Array In-place //
+import java.util.Scanner;
+
+public class ReverseArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        for (int i = 0, j = n-1; i < j; i++, j--) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
+        System.out.print("Reversed: ");
+        for (int x : arr) System.out.print(x + " ");
+    }
+}
+
+
+
+// 3. Second Largest Element
+import java.util.Scanner;
+
+public class SecondLargest {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int largest = Integer.MIN_VALUE, second = Integer.MIN_VALUE;
+        for (int num : arr) {
+            if (num > largest) {
+                second = largest;
+                largest = num;
+            } else if (num > second && num != largest) {
+                second = num;
+            }
+        }
+        System.out.println("Second Largest: " + (second == Integer.MIN_VALUE ? "None" : second));
+    }
+}
+
+
+
+// 4. Linear Search
+import java.util.Scanner;
+
+public class LinearSearch {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] arr = {5, 8, 2, 9, 3};
+        System.out.print("Enter key: ");
+        int key = sc.nextInt();
+
+        int index = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                index = i;
+                break;
+            }
+        }
+        System.out.println(index == -1 ? "Not found" : "Found at index " + index);
+    }
+}
+
+
+
+// 5. Binary Search (Iterative + Recursive)
+import java.util.Scanner;
+
+public class BinarySearch {
+    public static int binaryRecursive(int[] arr, int left, int right, int key) {
+        if (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == key) return mid;
+            if (arr[mid] > key) return binaryRecursive(arr, left, mid-1, key);
+            return binaryRecursive(arr, mid+1, right, key);
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 5, 7, 9, 11};
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter key: ");
+        int key = sc.nextInt();
+
+        // Iterative
+        int left = 0, right = arr.length - 1, result = -1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == key) { result = mid; break; }
+            else if (arr[mid] < key) left = mid + 1;
+            else right = mid - 1;
+        }
+        System.out.println("Iterative: " + (result == -1 ? "Not found" : "Found at " + result));
+
+        // Recursive
+        result = binaryRecursive(arr, 0, arr.length-1, key);
+        System.out.println("Recursive: " + (result == -1 ? "Not found" : "Found at " + result));
+    }
+}
+
+
+
+// 6. Bubble Sort Tracker
+public class BubbleSort {
+    public static void main(String[] args) {
+        int[] arr = {5, 3, 8, 4, 2};
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j+1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+            }
+            System.out.print("Pass " + (i+1) + ": ");
+            for (int x : arr) System.out.print(x + " ");
+            System.out.println();
+        }
+    }
+}
+
+
+
+// 7. Selection Sort
+public class SelectionSort {
+    public static void main(String[] args) {
+        int[] arr = {64, 25, 12, 22, 11};
+
+        for (int i = 0; i < arr.length-1; i++) {
+            int minIndex = i;
+            for (int j = i+1; j < arr.length; j++) {
+                if (arr[j] < arr[minIndex]) minIndex = j;
+            }
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+            System.out.println("Step " + (i+1) + " swapped " + arr[i] + " with " + arr[minIndex]);
+        }
+
+        System.out.print("Sorted: ");
+        for (int x : arr) System.out.print(x + " ");
+    }
+}
+
+
+
+// 8. Insertion Sort
+public class InsertionSort {
+    public static void main(String[] args) {
+        int[] arr = {9, 5, 1, 4, 3};
+
+        for (int i = 1; i < arr.length; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > key) {
+                arr[j+1] = arr[j];
+                j--;
+            }
+            arr[j+1] = key;
+        }
+
+        System.out.print("Sorted: ");
+        for (int x : arr) System.out.print(x + " ");
+    }
+}
+
+
+
+// 9. Palindrome Checker
+import java.util.Scanner;
+
+public class Palindrome {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter word: ");
+        String str = sc.nextLine();
+        boolean isPal = true;
+
+        for (int i = 0, j = str.length()-1; i < j; i++, j--) {
+            if (str.charAt(i) != str.charAt(j)) {
+                isPal = false;
+                break;
+            }
+        }
+        System.out.println(isPal ? "Palindrome" : "Not Palindrome");
+    }
+}
+
+
+
+// 10. Frequency Counter
+import java.util.Scanner;
+
+public class CharFrequency {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter string: ");
+        String str = sc.nextLine();
+
+        int[] freq = new int[256]; // ASCII
+        for (char c : str.toCharArray()) {
+            freq[c]++;
+        }
+
+        for (int i = 0; i < freq.length; i++) {
+            if (freq[i] > 0) {
+                System.out.println((char)i + " -> " + freq[i]);
+            }
+        }
+    }
+}
+
+
+
+// 11. Factorial
+import java.util.Scanner;
+
+public class FactorialRec {
+    static int factorial(int n) {
+        if (n <= 1) return 1;
+        return n * factorial(n-1);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        System.out.println("Factorial = " + factorial(n));
+    }
+}
+
+
+
+// 12. Fibonacci
+import java.util.Scanner;
+
+public class FibonacciRec {
+    static int fib(int n) {
+        if (n <= 1) return n;
+        return fib(n-1) + fib(n-2);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter terms: ");
+        int n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(fib(i) + " ");
+        }
+    }
+}
+
+
+
+// 13. Matrix Operations
+import java.util.Scanner;
+
+public class MatrixOps {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter rows: ");
+        int r = sc.nextInt();
+        System.out.print("Enter cols: ");
+        int c = sc.nextInt();
+
+        int[][] mat = new int[r][c];
+        System.out.println("Enter matrix:");
+        for (int i = 0; i < r; i++)
+            for (int j = 0; j < c; j++)
+                mat[i][j] = sc.nextInt();
+
+        // Transpose
+        System.out.println("Transpose:");
+        for (int i = 0; i < c; i++) {
+            for (int j = 0; j < r; j++) {
+                System.out.print(mat[j][i] + " ");
+            }
+            System.out.println();
+        }
+
+        // Diagonal sum (only if square matrix)
+        if (r == c) {
+            int sum = 0;
+            for (int i = 0; i < r; i++) sum += mat[i][i];
+            System.out.println("Diagonal Sum: " + sum);
+        }
+    }
+}
+
+
+
+// 14. Merge Two Sorted Arrays
+import java.util.Scanner;
+
+public class MergeArrays {
+    public static void main(String[] args) {
+        int[] A = {1, 3, 5, 7};
+        int[] B = {2, 4, 6, 8, 10};
+        int[] C = new int[A.length + B.length];
+
+        int i = 0, j = 0, k = 0;
+        while (i < A.length && j < B.length) {
+            if (A[i] < B[j]) C[k++] = A[i++];
+            else C[k++] = B[j++];
+        }
+        while (i < A.length) C[k++] = A[i++];
+        while (j < B.length) C[k++] = B[j++];
+
+        System.out.print("Merged: ");
+        for (int x : C) System.out.print(x + " ");
+    }
+}
+
+
+
+// 14. Merge Two Sorted Arrays
+import java.util.Scanner;
+
+public class MergeArrays {
+    public static void main(String[] args) {
+        int[] A = {1, 3, 5, 7};
+        int[] B = {2, 4, 6, 8, 10};
+        int[] C = new int[A.length + B.length];
+
+        int i = 0, j = 0, k = 0;
+        while (i < A.length && j < B.length) {
+            if (A[i] < B[j]) C[k++] = A[i++];
+            else C[k++] = B[j++];
+        }
+        while (i < A.length) C[k++] = A[i++];
+        while (j < B.length) C[k++] = B[j++];
+
+        System.out.print("Merged: ");
+        for (int x : C) System.out.print(x + " ");
+    }
+}
+
+
+
+
+
+
+
+import java.util.*;
+
+public class PrelimMenuDSA {
+    static Scanner sc = new Scanner(System.in);
+
+    // --- Problem 1: Max & Min ---
+    static void maxMinArray() {
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int max = arr[0], min = arr[0];
+        for (int x : arr) {
+            if (x > max) max = x;
+            if (x < min) min = x;
+        }
+        System.out.println("Max = " + max + ", Min = " + min);
+    }
+
+    // --- Problem 2: Linear Search ---
+    static void linearSearch() {
+        int[] arr = {5, 8, 2, 9, 3};
+        System.out.print("Enter key: ");
+        int key = sc.nextInt();
+        int index = -1;
+        for (int i = 0; i < arr.length; i++)
+            if (arr[i] == key) index = i;
+        System.out.println(index == -1 ? "Not found" : "Found at index " + index);
+    }
+
+    // --- Problem 3: Bubble Sort ---
+    static void bubbleSort() {
+        int[] arr = {5, 3, 8, 4, 2};
+        for (int i = 0; i < arr.length-1; i++) {
+            for (int j = 0; j < arr.length-1-i; j++) {
+                if (arr[j] > arr[j+1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+            }
+            System.out.print("Pass " + (i+1) + ": ");
+            for (int x : arr) System.out.print(x + " ");
+            System.out.println();
+        }
+    }
+
+    // --- Problem 4: Palindrome ---
+    static void palindromeCheck() {
+        sc.nextLine(); // consume newline
+        System.out.print("Enter string: ");
+        String str = sc.nextLine();
+        boolean isPal = true;
+        for (int i = 0, j = str.length()-1; i < j; i++, j--)
+            if (str.charAt(i) != str.charAt(j)) { isPal = false; break; }
+        System.out.println(isPal ? "Palindrome" : "Not Palindrome");
+    }
+
+    // --- Problem 5: Factorial Recursion ---
+    static int factorial(int n) {
+        if (n <= 1) return 1;
+        return n * factorial(n-1);
+    }
+    static void factorialRun() {
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+        System.out.println("Factorial = " + factorial(n));
+    }
+
+    // --- Problem 6: Pair Sum ---
+    static void pairSum() {
+        int[] arr = {2, 4, 3, 7, 5, 1};
+        System.out.print("Enter target sum: ");
+        int target = sc.nextInt();
+
+        boolean found = false;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i+1; j < arr.length; j++) {
+                if (arr[i] + arr[j] == target) {
+                    System.out.println("(" + arr[i] + ", " + arr[j] + ")");
+                    found = true;
+                }
+            }
+        }
+        if (!found) System.out.println("No pairs found.");
+    }
+
+    // --- Menu ---
+    public static void main(String[] args) {
+        int choice;
+        do {
+            System.out.println("\n===== PRELIM DSA MENU =====");
+            System.out.println("1. Max & Min in Array");
+            System.out.println("2. Linear Search");
+            System.out.println("3. Bubble Sort");
+            System.out.println("4. Palindrome Check");
+            System.out.println("5. Factorial (Recursion)");
+            System.out.println("6. Pair Sum Problem");
+            System.out.println("0. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch(choice) {
+                case 1: maxMinArray(); break;
+                case 2: linearSearch(); break;
+                case 3: bubbleSort(); break;
+                case 4: palindromeCheck(); break;
+                case 5: factorialRun(); break;
+                case 6: pairSum(); break;
+                case 0: System.out.println("Exiting..."); break;
+                default: System.out.println("Invalid choice!");
+            }
+        } while (choice != 0);
+    }
+}
+
+
+
+
+
+
+
